@@ -1,0 +1,29 @@
+.message {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+.message_wrapper {
+  background: #222831;
+  /* border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem; */
+  border-radius: 0.5rem;
+  padding: 1px 5px 1px 5px;
+  width: fit-content;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.message_wrapper .text {
+  font-size: 1.4rem;
+  max-width: 300px;
+  word-wrap: break-word;
+}
+.message_wrapper .message_time {
+  font-size: 0.6rem;
+  font-weight: 100;
+}

@@ -1,0 +1,6 @@
+.messages_wrapper {
+  height: 100%;
+  width: 80%;
+  /* background-color: #fff; */
+  overflow-y: scroll;
+}

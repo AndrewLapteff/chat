@@ -1,0 +1,43 @@
+.background {
+  background: linear-gradient(to right, #00a8cc, #142850);
+  /* background: linear-gradient(to right, #3f72af, #112d4e); */
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+.content {
+  /* background: #00000024; */
+  height: 85%;
+  width: 85%;
+  display: flex;
+  justify-content: space-between;
+}
+.left_side {
+  height: 100%;
+  width: 29%;
+  border-radius: 1.4rem;
+  background: #0000006d;
+}
+.right_side {
+  height: 100%;
+  width: 69%;
+  border-radius: 1.4rem;
+  background: #0000006d;
+}
+
+@media (max-width: 750px) {
+  .left_side {
+    height: 100%;
+    width: 100%;
+    border-radius: 1.4rem;
+    background: #0000006d;
+  }
+  .right_side {
+    height: 100%;
+    width: 0%;
+    border-radius: 1.4rem;
+    background: #0000006d;
+  }
+}

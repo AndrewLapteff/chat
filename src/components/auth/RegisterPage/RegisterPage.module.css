@@ -1,0 +1,129 @@
+.background {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  width: 30%;
+  background: var(--gray-primary);
+  border-radius: 0.4rem;
+}
+
+.login_form {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  padding: 20px;
+  justify-content: space-around;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.field input {
+  border-radius: 4px;
+  padding: 0.4rem;
+  border-style: solid;
+  font-size: 1.1rem;
+}
+.field input:focus {
+  border-radius: 4px;
+  padding: 0.4rem;
+  border-style: solid;
+  border-color: var(--blue-primary) !important;
+  outline: none !important;
+  box-shadow: 0 0 6px #719ece;
+}
+
+.actions {
+  /* flex-grow: 0.5; */
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.login_button {
+  width: 80%;
+  padding: 6px;
+  border-radius: 0.4rem;
+  border-style: solid;
+  background-color: var(--blue-primary);
+  border-color: var(--gray-secondary);
+  cursor: pointer;
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+.login_button:hover {
+  width: 80%;
+  padding: 6px;
+  border-radius: 0.4rem;
+  border-style: solid;
+  background-color: var(--blue-primary-hover);
+  border-color: var(--gray-secondary);
+  cursor: pointer;
+  font-size: 1.3rem;
+}
+
+.actions span a {
+  color: var(--blue-primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.wrong_field {
+  color: rgb(249, 49, 49);
+}
+/* 
+.avatar_field {
+  display: flex;
+  flex-direction: row;
+} */
+
+input[type='file'] {
+  display: none;
+  background-color: #6d0f0f;
+  cursor: pointer;
+}
+.custom-file-upload {
+  border-width: 1px !important;
+  border-radius: 4px;
+  border: 1px solid #a59b9bfe;
+  display: flex;
+  align-items: center;
+  padding: 6px 12px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  justify-content: center;
+}
+.custom-file-upload svg {
+  color: var(--blue-primary);
+}
+
+@media (max-width: 1224px) {
+  .content {
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    width: 60%;
+    background: var(--gray-primary);
+  }
+}
+@media (max-width: 800px) {
+  .content {
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    width: 80%;
+    background: var(--gray-primary);
+  }
+}
