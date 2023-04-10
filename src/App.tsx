@@ -1,14 +1,7 @@
-import { RouterProvider } from 'react-router-dom';
-import { routing } from './routes/routing';
-import Spinner from './components/Spinner/Spinnerr';
+import { ProviderWithDelay } from './routes/routing';
 
 function App() {
-  return (
-    <RouterProvider
-      fallbackElement={<Spinner />}
-      router={routing}
-    ></RouterProvider>
-  );
+  return <ProviderWithDelay />;
 }
 
 export default App;

@@ -7,6 +7,9 @@
   display: flex;
   align-items: center;
 }
+.contact_wrapper img {
+  object-fit: cover;
+}
 .contact_icon {
   margin-left: 5px;
   margin-right: 5px;

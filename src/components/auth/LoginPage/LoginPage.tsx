@@ -1,22 +1,25 @@
-import React from 'react';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useRef, useState } from 'react';
 import style from './LoginPage.module.css';
 import { NavLink } from 'react-router-dom';
+import { auth } from '../../../firebase';
+import { useLocation } from 'react-router-dom';
 
 interface IFieldsChecker {
   email: boolean;
   nickname: boolean;
   password: boolean;
 }
-
 const LoginPage: React.FC = () => {
-  const emailRef = React.useRef<HTMLInputElement>(null); // rerenders increase
-  const passwordRef = React.useRef<HTMLInputElement>(null); // rerenders increase
-  const [fieldsPassed, setPassedFields] = React.useState<IFieldsChecker>({
+  const emailRef = useRef<HTMLInputElement>(null); // rerenders increase
+  const passwordRef = useRef<HTMLInputElement>(null); // rerenders increase
+  const [loginError, setLoginError] = useState<string>('');
+  const [fieldsPassed, setPassedFields] = useState<IFieldsChecker>({
     email: false,
     nickname: false,
     password: false,
   });
-  const [touchedFields, setTouchedFields] = React.useState<IFieldsChecker>({
+  const [touchedFields, setTouchedFields] = useState<IFieldsChecker>({
     email: false,
     nickname: false,
     password: false,
@@ -56,8 +59,17 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
     if (emailRef.current && passwordRef.current) {
       if (fieldsPassed.email && fieldsPassed.password) {
-        console.log(emailRef.current.value);
-        console.log(passwordRef.current.value);
+        let email = emailRef.current.value;
+        let password = passwordRef.current.value;
+        // авторизація
+        signInWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            const user = userCredential.user;
+          })
+          .catch((error) => {
+            const tempErr = error.code.replace('auth/', '');
+            setLoginError(tempErr);
+          });
       }
     }
   };
@@ -66,7 +78,7 @@ const LoginPage: React.FC = () => {
       <div className={style.content}>
         <form onSubmit={(e) => submitHandler(e)} className={style.login_form}>
           <div className={style.field}>
-            <span>Електронна пошта (верифікація відсутня)</span>
+            <span>Електронна пошта</span>
             <input
               ref={emailRef}
               type="text"
@@ -84,25 +96,6 @@ const LoginPage: React.FC = () => {
               ? 'Введіть пошту вірно'
               : 'ㅤ'}
           </span>
-          {/* <div className={style.field}>
-            <span>Нік</span>
-            <input
-              ref={nicknameRef}
-              onBlur={() => {
-                setTouchedFields(() => ({
-                  ...touchedFields,
-                  nickname: true,
-                }));
-              }}
-              onChange={() => verification()}
-              type="text"
-            />
-          </div>
-          <span className={style.wrong_field}>
-            {!fieldsPassed.nickname && touchedFields.nickname
-              ? 'Нік має влючати від 3 до 9 символів'
-              : 'ㅤ'}
-          </span> */}
           <div className={style.field}>
             <span>Пароль</span>
             <input
@@ -123,6 +116,9 @@ const LoginPage: React.FC = () => {
               : 'ㅤ'}
           </span>
           <div className={style.actions}>
+            <span className={style.wrong_field}>
+              {!!loginError ? loginError : 'ㅤ'}
+            </span>
             <button className={style.login_button}>Ввійти</button>
             <span>
               Немає акка? <NavLink to={'/registration'}>Зарегать</NavLink>

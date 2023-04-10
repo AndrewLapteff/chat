@@ -1,6 +1,5 @@
-import React from 'react';
 import style from './ChatWrapper.module.css';
-import Search from './Search/Search';
+import SideBar from './SideBar/SideBar';
 import Chat from './Chat/Chat';
 
 const ChatWrapper: React.FC = () => {
@@ -8,7 +7,7 @@ const ChatWrapper: React.FC = () => {
     <div className={style.background}>
       <div className={style.content}>
         <div className={style.left_side}>
-          <Search />
+          <SideBar />
         </div>
         <div className={style.right_side}>
           <Chat />

@@ -1,7 +1,6 @@
-import React from 'react';
 import style from './ContactsMessage.module.css';
 
-const ContactsMessage: React.FC = () => {
+const ContactsMessage = () => {
   return (
     <div className={style.message}>
       <div className={style.message_wrapper}>

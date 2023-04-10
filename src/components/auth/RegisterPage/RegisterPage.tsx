@@ -1,14 +1,9 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { useRef, useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import style from './RegisterPage.module.css';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth, storage, db } from '../../../firebase';
-import {
-  getStorage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from 'firebase/storage';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { doc, setDoc } from 'firebase/firestore';
 
 interface IFieldsChecker {
@@ -17,22 +12,23 @@ interface IFieldsChecker {
   password: boolean;
 }
 
-const RegisterPage: React.FC = () => {
-  const emailRef = React.useRef<HTMLInputElement>(null); // rerenders reduce
-  const nicknameRef = React.useRef<HTMLInputElement>(null); // rerenders reduce
-  const passwordRef = React.useRef<HTMLInputElement>(null); // rerenders reduce
-  const photoRef = React.useRef<HTMLInputElement>(null);
-  const [registerErr, setRegErr] = React.useState('');
-  const [fieldsPassed, setPassedFields] = React.useState<IFieldsChecker>({
+const RegisterPage = () => {
+  const emailRef = useRef<HTMLInputElement>(null); // rerenders reduce
+  const nicknameRef = useRef<HTMLInputElement>(null); // rerenders reduce
+  const passwordRef = useRef<HTMLInputElement>(null); // rerenders reduce
+  const photoRef = useRef<HTMLInputElement>(null);
+  const [registerErr, setRegErr] = useState('');
+  const [fieldsPassed, setPassedFields] = useState<IFieldsChecker>({
     email: false,
     nickname: false,
     password: false,
   });
-  const [touchedFields, setTouchedFields] = React.useState<IFieldsChecker>({
+  const [touchedFields, setTouchedFields] = useState<IFieldsChecker>({
     email: false,
     nickname: false,
     password: false,
   });
+  const navigate = useNavigate();
 
   const verification = () => {
     if (
@@ -98,12 +94,13 @@ const RegisterPage: React.FC = () => {
       emailRef.current &&
       passwordRef.current &&
       nicknameRef.current &&
-      photoRef.current
+      photoRef.current?.files
     ) {
       email = emailRef.current.value;
       password = passwordRef.current.value;
       nickname = nicknameRef.current.value;
-      photo = photoRef.current.value;
+      photo = photoRef.current.files[0]; //! <==== files
+      console.log(photo);
       try {
         // 1. створення користувача
         const res = await createUserWithEmailAndPassword(auth, email, password);
@@ -146,6 +143,7 @@ const RegisterPage: React.FC = () => {
                 });
                 // 4. колекція чатів користувача
                 await setDoc(doc(db, 'userChats', res.user.uid), {});
+                navigate('/');
               }
             );
           }

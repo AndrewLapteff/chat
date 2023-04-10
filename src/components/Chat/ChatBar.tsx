@@ -1,7 +1,6 @@
-import React from 'react';
 import style from './ChatBar.module.css';
 
-const ChatBar: React.FC = () => {
+const ChatBar = () => {
   return (
     <div className={style.chatbar_wrapper}>
       <img
