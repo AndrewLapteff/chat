@@ -8,24 +8,24 @@ import { doc, setDoc } from 'firebase/firestore';
 
 interface IFieldsChecker {
   email: boolean;
-  nickname: boolean;
+  displayName: boolean;
   password: boolean;
 }
 
 const RegisterPage = () => {
   const emailRef = useRef<HTMLInputElement>(null); // rerenders reduce
-  const nicknameRef = useRef<HTMLInputElement>(null); // rerenders reduce
+  const displayNameRef = useRef<HTMLInputElement>(null); // rerenders reduce
   const passwordRef = useRef<HTMLInputElement>(null); // rerenders reduce
   const photoRef = useRef<HTMLInputElement>(null);
   const [registerErr, setRegErr] = useState('');
   const [fieldsPassed, setPassedFields] = useState<IFieldsChecker>({
     email: false,
-    nickname: false,
+    displayName: false,
     password: false,
   });
   const [touchedFields, setTouchedFields] = useState<IFieldsChecker>({
     email: false,
-    nickname: false,
+    displayName: false,
     password: false,
   });
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ const RegisterPage = () => {
     if (
       emailRef.current &&
       passwordRef.current &&
-      nicknameRef.current &&
+      displayNameRef.current &&
       photoRef.current
     ) {
       if (
@@ -52,15 +52,15 @@ const RegisterPage = () => {
         }
       }
       if (
-        nicknameRef.current.value.trim() != '' &&
-        nicknameRef.current.value.length > 3
+        displayNameRef.current.value.trim() != '' &&
+        displayNameRef.current.value.length > 3
       ) {
-        if (fieldsPassed.nickname == false) {
-          setPassedFields((prev) => ({ ...prev, nickname: true }));
+        if (fieldsPassed.displayName == false) {
+          setPassedFields((prev) => ({ ...prev, displayName: true }));
         }
       } else {
-        if (fieldsPassed.nickname == true) {
-          setPassedFields((prev) => ({ ...prev, nickname: false }));
+        if (fieldsPassed.displayName == true) {
+          setPassedFields((prev) => ({ ...prev, displayName: false }));
         }
       }
       if (
@@ -80,7 +80,11 @@ const RegisterPage = () => {
 
   const submitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    if (fieldsPassed.email && fieldsPassed.nickname && fieldsPassed.password) {
+    if (
+      fieldsPassed.email &&
+      fieldsPassed.displayName &&
+      fieldsPassed.password
+    ) {
       Registration();
     }
   };
@@ -88,24 +92,24 @@ const RegisterPage = () => {
   const Registration = async () => {
     let email: string;
     let password: string;
-    let nickname: string;
+    let displayName: string;
     let photo: any;
     if (
       emailRef.current &&
       passwordRef.current &&
-      nicknameRef.current &&
+      displayNameRef.current &&
       photoRef.current?.files
     ) {
       email = emailRef.current.value;
       password = passwordRef.current.value;
-      nickname = nicknameRef.current.value;
+      displayName = displayNameRef.current.value;
       photo = photoRef.current.files[0]; //! <==== files
       console.log(photo);
       try {
         // 1. створення користувача
         const res = await createUserWithEmailAndPassword(auth, email, password);
         // 2. завантаження фото в store
-        const storageRef = ref(storage, nickname);
+        const storageRef = ref(storage, displayName);
         const uploadTask = uploadBytesResumable(storageRef, photo);
 
         uploadTask.on(
@@ -131,13 +135,13 @@ const RegisterPage = () => {
               async (downloadURL) => {
                 console.log('File available at', downloadURL);
                 await updateProfile(res.user, {
-                  displayName: nickname,
+                  displayName: displayName,
                   photoURL: downloadURL,
                 });
                 // 3. збереження інформації в БД (для візуала)
                 await setDoc(doc(db, 'users', res.user.uid), {
                   uid: res.user.uid,
-                  nickname,
+                  displayName,
                   email,
                   photoURL: downloadURL,
                 });
@@ -162,7 +166,7 @@ const RegisterPage = () => {
             <span>Електронна пошта (верифікація відсутня)</span>
             <input
               ref={emailRef}
-              type="text"
+              type="email"
               onBlur={() => {
                 setTouchedFields(() => ({
                   ...touchedFields,
@@ -180,11 +184,11 @@ const RegisterPage = () => {
           <div className={style.field}>
             <span>Нік</span>
             <input
-              ref={nicknameRef}
+              ref={displayNameRef}
               onBlur={() => {
                 setTouchedFields(() => ({
                   ...touchedFields,
-                  nickname: true,
+                  displayName: true,
                 }));
               }}
               onChange={() => verification()}
@@ -192,7 +196,7 @@ const RegisterPage = () => {
             />
           </div>
           <span className={style.wrong_field}>
-            {!fieldsPassed.nickname && touchedFields.nickname
+            {!fieldsPassed.displayName && touchedFields.displayName
               ? 'Нік має влючати від 3 до 9 символів'
               : 'ㅤ'}
           </span>

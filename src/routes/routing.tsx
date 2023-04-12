@@ -31,6 +31,10 @@ export const Authorized: React.FC<Props> = ({ children }) => {
 
 export const routing = createBrowserRouter([
   {
+    path: '*',
+    element: <Navigate to={'/'} />,
+  },
+  {
     path: '/',
     children: [
       {

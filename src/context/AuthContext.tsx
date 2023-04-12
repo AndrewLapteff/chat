@@ -4,11 +4,11 @@ import { auth } from '../firebase';
 
 export const AuthContext = createContext({});
 
-export interface LayoutProps {
+export interface PropsWithJSX {
   children: React.ReactNode;
 }
 
-export const AuthContextProvider = (props: LayoutProps) => {
+export const AuthContextProvider = (props: PropsWithJSX) => {
   const [authedUser, setUser] = useState<User | null>();
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {

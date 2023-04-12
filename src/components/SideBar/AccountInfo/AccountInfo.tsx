@@ -1,8 +1,8 @@
 import { useContext } from 'react';
-import { auth } from '../../firebase';
 import style from './AccountInfo.module.css';
 import { User, signOut } from 'firebase/auth';
-import { AuthContext } from '../../context/AuthContext';
+import { auth } from '../../../firebase';
+import { AuthContext } from '../../../context/AuthContext';
 
 const AccountInfo = () => {
   const { authedUser }: { authedUser: User } = useContext<any>(AuthContext);

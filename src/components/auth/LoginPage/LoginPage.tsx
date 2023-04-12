@@ -7,21 +7,22 @@ import { useLocation } from 'react-router-dom';
 
 interface IFieldsChecker {
   email: boolean;
-  nickname: boolean;
+  displayName: boolean;
   password: boolean;
 }
+
 const LoginPage: React.FC = () => {
   const emailRef = useRef<HTMLInputElement>(null); // rerenders increase
   const passwordRef = useRef<HTMLInputElement>(null); // rerenders increase
   const [loginError, setLoginError] = useState<string>('');
   const [fieldsPassed, setPassedFields] = useState<IFieldsChecker>({
     email: false,
-    nickname: false,
+    displayName: false,
     password: false,
   });
   const [touchedFields, setTouchedFields] = useState<IFieldsChecker>({
     email: false,
-    nickname: false,
+    displayName: false,
     password: false,
   });
   const verification = () => {
