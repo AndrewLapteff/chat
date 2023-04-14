@@ -5,13 +5,9 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from 'react-router-dom';
-import { User } from 'firebase/auth';
 import RegisterPage from '../components/auth/RegisterPage/RegisterPage';
-import LoginPage from '../components/auth/LoginPage/LoginPage';
+import { useAuth } from '../hooks/useAuth';
 const LazyChatWrapper = React.lazy(() => import('../components/ChatWrapper'));
-const LazyRegisterPage = React.lazy(
-  () => import('../components/auth/RegisterPage/RegisterPage')
-);
 const LazyLoginPage = React.lazy(
   () => import('../components/auth/LoginPage/LoginPage')
 );
@@ -21,11 +17,11 @@ interface Props {
 }
 
 export const ProtectedRoutes: React.FC<Props> = ({ children }) => {
-  const { authedUser }: { authedUser: User } = useContext<any>(AuthContext);
+  const authedUser = useAuth();
   return authedUser != null ? children : <Navigate to={'/login'} replace />;
 };
 export const Authorized: React.FC<Props> = ({ children }) => {
-  const { authedUser }: { authedUser: User } = useContext<any>(AuthContext);
+  const authedUser = useAuth();
   return authedUser == null ? children : <Navigate to={'/'} replace />;
 };
 

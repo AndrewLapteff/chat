@@ -1,21 +1,21 @@
 import React, { useContext } from 'react';
 import style from './ContactItem.module.css';
-import { User } from 'firebase/auth';
 import {
   doc,
   getDoc,
-  getDocs,
-  onSnapshot,
   serverTimestamp,
   setDoc,
   updateDoc,
 } from 'firebase/firestore';
 import { db } from '../../../firebase';
-import { AuthContext } from '../../../context/AuthContext';
 import { ISearchedUser } from '../SideBar';
+import { ChatContext, REDUCER_WAYS } from '../../../context/ChatContext';
+import { useAuth } from '../../../hooks/useAuth';
+import { useChatInfo } from '../../../hooks/useChatInfo';
 
 const ContactItem: React.FC<ISearchedUser> = (props) => {
-  const { authedUser }: { authedUser: User } = useContext<any>(AuthContext);
+  const authedUser = useAuth();
+  const { dispatch } = useChatInfo();
 
   const createChatOnSelect = async () => {
     if (authedUser.displayName != null) {
@@ -23,6 +23,9 @@ const ContactItem: React.FC<ISearchedUser> = (props) => {
         authedUser.displayName < props.displayName //синхронізація айді чату
           ? authedUser.displayName + '_' + props.displayName
           : props.displayName + '_' + authedUser.displayName;
+
+      // виділення конкретного користувача в контекст
+      dispatch({ type: REDUCER_WAYS.CHANGE_USER, payload: props });
       try {
         // звертаємося до загальної колекції всих чатів
         const docRef = doc(db, 'chats', chatId);

@@ -13,6 +13,7 @@
   margin-top: 5px;
   margin-bottom: 5px;
   margin-right: 5px;
+  object-fit: cover;
 }
 .contact_displayName {
   font-size: 1.5rem;

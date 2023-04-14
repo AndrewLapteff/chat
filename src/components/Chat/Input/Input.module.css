@@ -1,0 +1,25 @@
+.chatbar_wrapper {
+  width: 100%;
+  /* height: 75px !important; */
+  background-color: rgba(0, 0, 0, 0.164);
+  border-bottom-left-radius: 1.5rem;
+  border-bottom-right-radius: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.input_field {
+  padding: 0.5rem;
+  margin: 0.5rem;
+  border-style: none;
+  background-color: rgba(0, 0, 0, 0.29);
+  border-radius: 1rem;
+  outline: none;
+  width: calc(100% - 120px);
+  font-size: 1.5rem;
+}
+.controls {
+  display: flex;
+  align-items: center;
+}

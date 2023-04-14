@@ -2,10 +2,10 @@ import { useContext } from 'react';
 import style from './AccountInfo.module.css';
 import { User, signOut } from 'firebase/auth';
 import { auth } from '../../../firebase';
-import { AuthContext } from '../../../context/AuthContext';
+import { useAuth } from '../../../hooks/useAuth';
 
 const AccountInfo = () => {
-  const { authedUser }: { authedUser: User } = useContext<any>(AuthContext);
+  const authedUser = useAuth();
 
   return (
     <div className={style.account_info_wrapper}>

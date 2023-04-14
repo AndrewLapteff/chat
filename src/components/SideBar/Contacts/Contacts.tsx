@@ -1,12 +1,11 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ContactItem from '../ContactItem/ContactItem';
 import style from './Contacts.module.css';
 import { onSnapshot, doc, DocumentData } from 'firebase/firestore';
 import { db } from '../../../firebase';
-import { AuthContext } from '../../../context/AuthContext';
-import { User } from 'firebase/auth';
+import { useAuth } from '../../../hooks/useAuth';
 
-interface IContact {
+export interface IContact {
   info: {
     displayName: string;
     photo: string;
@@ -23,7 +22,7 @@ interface IContacts {
 }
 
 const Contacts = () => {
-  const { authedUser }: { authedUser: User } = useContext<any>(AuthContext);
+  const authedUser = useAuth();
   const [contacts, setContacts] = useState<IContacts[]>([]);
 
   // Підписка на контакти в реальному часі

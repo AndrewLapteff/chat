@@ -1,4 +1,3 @@
-import { User } from 'firebase/auth';
 import {
   DocumentData,
   collection,
@@ -6,12 +5,12 @@ import {
   where,
   getDocs,
 } from 'firebase/firestore';
-import { useState, useContext, useEffect } from 'react';
-import { AuthContext } from '../../../context/AuthContext';
+import { useState, useEffect } from 'react';
 import { db } from '../../../firebase';
 import { loader } from '../../UI/loader';
 import style from './Search.module.css';
 import ContactItem from '../ContactItem/ContactItem';
+import { useAuth } from '../../../hooks/useAuth';
 
 const Search = () => {
   const [isOpenSearch, setSearchStatus] = useState(false);
@@ -22,7 +21,7 @@ const Search = () => {
     null
   );
   const [isLoading, setStatusLoading] = useState<boolean>(false);
-  const { authedUser }: { authedUser: User } = useContext<any>(AuthContext);
+  const authedUser = useAuth();
 
   const clearSearch = () => {
     setSearchName('');
@@ -46,7 +45,6 @@ const Search = () => {
         return (
           <ContactItem
             key={user.uid}
-            email={user.email}
             displayName={user.displayName}
             photoURL={user.photoURL}
             uid={user.uid}
@@ -73,7 +71,6 @@ const Search = () => {
           let tempUser = (
             <div style={{ width: '100%' }} onClick={() => clearSearch()}>
               <ContactItem
-                email={doc.data().email}
                 displayName={doc.data().displayName}
                 photoURL={doc.data().photoURL}
                 uid={doc.data().uid}
