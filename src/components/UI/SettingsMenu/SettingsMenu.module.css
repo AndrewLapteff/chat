@@ -1,0 +1,39 @@
+.menu {
+  user-select: none;
+  width: 30px;
+  height: fit-content;
+  position: absolute;
+  right: 12px;
+  top: 8px;
+  background-color: #0005266c;
+  border-radius: 7px;
+  display: flex;
+  justify-content: center;
+  z-index: 1;
+}
+.item {
+  padding-top: 3px;
+}
+.menu div {
+  position: relative;
+  cursor: pointer;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.menu div div img {
+  border-radius: 3px;
+}
+.menu div svg {
+  z-index: 2;
+  margin-right: 2px;
+  width: 30px;
+  fill: rgba(75, 98, 249, 0.313);
+  transition: all 200ms;
+}
+.menu div svg:hover {
+  width: 30px;
+  fill: rgba(75, 98, 249, 0.833);
+}

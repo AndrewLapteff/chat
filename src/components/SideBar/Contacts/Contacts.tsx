@@ -13,8 +13,9 @@ export interface IContact {
     lastMessage?: string;
   };
   date: {
-    seconds: string;
+    seconds: number;
   };
+  lastMessage: string;
 }
 
 interface IContacts {
@@ -45,17 +46,20 @@ const Contacts = () => {
 
   return (
     <div className={style.contacts_menu}>
-      {contacts.map((item) => {
-        return (
-          <ContactItem
-            displayName={item[1].info.displayName}
-            photoURL={item[1].info.photo}
-            uid={item[1].info.uid}
-            key={item[1].date.seconds}
-            lastMessage={item[1].info.lastMessage}
-          />
-        );
-      })}
+      {contacts
+        .sort((a, b) => b[1].date.seconds - a[1].date.seconds) //сортування за датою змінення
+        .map((item) => {
+          return (
+            <ContactItem
+              date={item[1].date.seconds}
+              lastMessage={item[1].lastMessage}
+              displayName={item[1].info.displayName}
+              photoURL={item[1].info.photo}
+              uid={item[1].info.uid}
+              key={item[1].date.seconds}
+            />
+          );
+        })}
     </div>
   );
 };

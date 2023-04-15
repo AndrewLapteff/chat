@@ -1,5 +1,5 @@
 import style from './ChatBar.module.css';
-import { useChatInfo } from '../../hooks/useChatInfo';
+import { useChatInfo } from '../../../hooks/useChatInfo';
 
 const ChatBar = () => {
   const { state } = useChatInfo();

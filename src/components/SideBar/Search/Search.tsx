@@ -11,6 +11,8 @@ import { loader } from '../../UI/loader';
 import style from './Search.module.css';
 import ContactItem from '../ContactItem/ContactItem';
 import { useAuth } from '../../../hooks/useAuth';
+import '../../../i18n';
+import { useTranslation } from 'react-i18next';
 
 const Search = () => {
   const [isOpenSearch, setSearchStatus] = useState(false);
@@ -22,6 +24,7 @@ const Search = () => {
   );
   const [isLoading, setStatusLoading] = useState<boolean>(false);
   const authedUser = useAuth();
+  const { t, i18n } = useTranslation();
 
   const clearSearch = () => {
     setSearchName('');
@@ -44,6 +47,7 @@ const Search = () => {
       let usersElementsTemp = usersData.map((user) => {
         return (
           <ContactItem
+            date={0}
             key={user.uid}
             displayName={user.displayName}
             photoURL={user.photoURL}
@@ -71,6 +75,7 @@ const Search = () => {
           let tempUser = (
             <div style={{ width: '100%' }} onClick={() => clearSearch()}>
               <ContactItem
+                date={0}
                 displayName={doc.data().displayName}
                 photoURL={doc.data().photoURL}
                 uid={doc.data().uid}
@@ -81,7 +86,10 @@ const Search = () => {
         });
       }, 300);
       setStatusLoading(true);
-      return () => clearTimeout(getQuery);
+      return () => {
+        setStatusLoading(false);
+        clearTimeout(getQuery);
+      };
     }
   }, [searchName]);
 
@@ -117,9 +125,10 @@ const Search = () => {
       >
         <div className={style.search_field_wrapper}>
           <input
+            autoComplete="off"
             onChange={(e) => setSearchName(e.target.value)}
             className={style.search_field}
-            placeholder="Пошук"
+            placeholder={t('search')}
             type="text"
             name="search"
             id="search"
@@ -134,7 +143,7 @@ const Search = () => {
           className={style.contacts_wrapper}
         >
           {searchName && !searchedUser && isLoading ? loader : searchedUser}
-          {!searchedUser && !isLoading ? usersElements : null}
+          {!searchName && !searchedUser && !isLoading ? usersElements : null}
         </div>
       </div>
     </div>

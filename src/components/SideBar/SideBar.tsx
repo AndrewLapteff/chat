@@ -7,6 +7,7 @@ export interface ISearchedUser {
   displayName: string;
   photoURL: string;
   uid: string;
+  date: number;
   lastMessage?: string;
 }
 

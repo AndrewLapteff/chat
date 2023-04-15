@@ -1,7 +1,7 @@
 import { PropsWithChildren, createContext, useReducer } from 'react';
 import { useAuth } from '../hooks/useAuth';
 
-export enum REDUCER_WAYS {
+export enum REDUCER_TYPES {
   CHANGE_USER,
 }
 
@@ -12,7 +12,7 @@ export interface IChatInfo {
 }
 
 interface ReducerAction {
-  type: REDUCER_WAYS;
+  type: REDUCER_TYPES;
   payload: IChatInfo;
 }
 
@@ -39,7 +39,7 @@ export const ChatContextProvider = (props: PropsWithChildren) => {
     action: ReducerAction
   ): typeof initialState => {
     switch (action.type) {
-      case REDUCER_WAYS.CHANGE_USER: {
+      case REDUCER_TYPES.CHANGE_USER: {
         if (authedUser.displayName) {
           let chatId =
             authedUser.displayName < action.payload.displayName //синхронізація айді чату

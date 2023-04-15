@@ -1,13 +1,14 @@
-import { useState } from 'react';
-import { IMessage } from './Input/Input';
+import { useEffect, useRef, useState } from 'react';
+import { IMessage } from '../../Input/Input';
 import style from './Message.module.css';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../../../hooks/useAuth';
 
 const Message = (props: IMessage) => {
   const [isMessageMy, setIsMessageMy] = useState<boolean | null>(null);
   const [img, setImg] = useState<JSX.Element>();
   const authedUser = useAuth();
   const date: Date = new Date(1000 * props.time.seconds);
+  const messageRef = useRef<HTMLDivElement>(null);
 
   if (props.author == authedUser.displayName && isMessageMy == null) {
     setIsMessageMy(false);
@@ -22,8 +23,15 @@ const Message = (props: IMessage) => {
   const addZero = (input: number) => {
     return input < 10 ? '0' + input : input;
   };
+
+  useEffect(() => {
+    messageRef.current?.scrollIntoView({
+      behavior: 'smooth',
+    });
+  }, []);
   return (
     <div
+      ref={messageRef}
       style={{ justifyContent: isMessageMy ? 'start' : 'end' }}
       className={style.message}
     >

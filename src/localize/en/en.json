@@ -1,0 +1,17 @@
+{
+  "quit btn": "Logout",
+  "email": "Email (no verification)",
+  "nick": "Nick",
+  "password": "Password",
+  "avatar": "Avatar",
+  "toRegister": "Sing up",
+  "toLogin": "Login",
+  "alreadyHaveAccount": "Already have an account",
+  "Haven'tAccount": "Don't have an account?",
+  "Register": "Register",
+  "Login": "Log in",
+  "emailError": "Enter the email correctly",
+  "nickError": "Nickname must be between 3 and 9 characters long",
+  "passwordError": "The password must be between 2 and 15 characters long",
+  "search": "Search"
+}

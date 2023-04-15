@@ -4,6 +4,9 @@ import style from './LoginPage.module.css';
 import { NavLink } from 'react-router-dom';
 import { auth } from '../../../firebase';
 import { useLocation } from 'react-router-dom';
+import '../../../i18n';
+import { useTranslation } from 'react-i18next';
+import SettingsMenu from '../../UI/SettingsMenu/SettingsMenu';
 
 interface IFieldsChecker {
   email: boolean;
@@ -25,6 +28,7 @@ const LoginPage: React.FC = () => {
     displayName: false,
     password: false,
   });
+  const { t, i18n } = useTranslation();
   const verification = () => {
     if (emailRef.current && passwordRef.current) {
       if (
@@ -76,10 +80,11 @@ const LoginPage: React.FC = () => {
   };
   return (
     <div className={style.background}>
+      <SettingsMenu />
       <div className={style.content}>
         <form onSubmit={(e) => submitHandler(e)} className={style.login_form}>
           <div className={style.field}>
-            <span>Електронна пошта</span>
+            <span>{t('email')}</span>
             <input
               ref={emailRef}
               type="text"
@@ -94,11 +99,11 @@ const LoginPage: React.FC = () => {
           </div>
           <span className={style.wrong_field}>
             {!fieldsPassed.email && touchedFields.email
-              ? 'Введіть пошту вірно'
+              ? t('emailError')
               : 'ㅤ'}
           </span>
           <div className={style.field}>
-            <span>Пароль</span>
+            <span>{t('password')}</span>
             <input
               ref={passwordRef}
               onBlur={() => {
@@ -113,16 +118,17 @@ const LoginPage: React.FC = () => {
           </div>
           <span className={style.wrong_field}>
             {!fieldsPassed.password && touchedFields.password
-              ? 'Пароль має бути від 2 до 15 символів'
+              ? t('passwordError')
               : 'ㅤ'}
           </span>
           <div className={style.actions}>
             <span className={style.wrong_field}>
               {!!loginError ? loginError : 'ㅤ'}
             </span>
-            <button className={style.login_button}>Ввійти</button>
+            <button className={style.login_button}>{t('toLogin')}</button>
             <span>
-              Немає акка? <NavLink to={'/registration'}>Зарегать</NavLink>
+              {t("Haven'tAccount")}{' '}
+              <NavLink to={'/registration'}>{t('Register')}</NavLink>
             </span>
           </div>
         </form>

@@ -1,17 +1,11 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import style from './Input.module.css';
 import { useAuth } from '../../../hooks/useAuth';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { db, storage } from '../../../firebase';
 import { useChatInfo } from '../../../hooks/useChatInfo';
 import { nanoid } from 'nanoid';
-import {
-  Timestamp,
-  arrayUnion,
-  doc,
-  serverTimestamp,
-  updateDoc,
-} from 'firebase/firestore';
+import { Timestamp, arrayUnion, doc, updateDoc } from 'firebase/firestore';
 
 export interface IMessage {
   id?: string;
@@ -30,7 +24,14 @@ const Input = () => {
 
   const sendMessage = async () => {
     if (text != '' && state.chatId != '') {
+      // refs
       const messagesArrayRef = doc(db, `chats`, state.chatId);
+      const lastMessageInSideBarForMe = doc(db, `userChats`, authedUser.uid);
+      const lastMessageInSideBarForContact = doc(
+        db,
+        `userChats`,
+        state.chatInfo.uid
+      );
       const textCopy = text;
       setText('');
 
@@ -76,22 +77,39 @@ const Input = () => {
             setError('');
             setImg(null);
 
-            // await updateDoc(doc(db, 'userChats', authedUser.uid), {});
+            await updateDoc(lastMessageInSideBarForMe, {
+              [state.chatId + '.lastMessage']: textCopy,
+              [state.chatId + '.date']: Timestamp.now(),
+            });
+            await updateDoc(lastMessageInSideBarForContact, {
+              [state.chatId + '.lastMessage']: textCopy,
+              [state.chatId + '.date']: Timestamp.now(),
+            });
           }
         );
+      } else {
+        // створення нового елементу массиву повідомленнь
+        await updateDoc(messagesArrayRef, {
+          messages: arrayUnion({
+            id: nanoid(),
+            photo: '',
+            text: textCopy,
+            author: authedUser.displayName,
+            time: Timestamp.now(),
+          }),
+        });
+        setError('');
+        setImg(null);
+
+        await updateDoc(lastMessageInSideBarForMe, {
+          [state.chatId + '.lastMessage']: textCopy,
+          [state.chatId + '.date']: Timestamp.now(),
+        });
+        await updateDoc(lastMessageInSideBarForContact, {
+          [state.chatId + '.lastMessage']: textCopy,
+          [state.chatId + '.date']: Timestamp.now(),
+        });
       }
-      // створення нового елементу массиву повідомленнь
-      await updateDoc(messagesArrayRef, {
-        messages: arrayUnion({
-          id: nanoid(),
-          photo: '',
-          text: textCopy,
-          author: authedUser.displayName,
-          time: Timestamp.now(),
-        }),
-      });
-      setError('');
-      setImg(null);
     }
   };
 
@@ -122,6 +140,7 @@ const Input = () => {
       </label>
       <input
         className={style.input_field}
+        autoComplete="off"
         type="text"
         name="input"
         id="input"

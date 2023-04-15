@@ -1,12 +1,13 @@
-import { useContext } from 'react';
 import style from './AccountInfo.module.css';
-import { User, signOut } from 'firebase/auth';
+import { signOut } from 'firebase/auth';
 import { auth } from '../../../firebase';
 import { useAuth } from '../../../hooks/useAuth';
+import '../../../i18n';
+import { useTranslation } from 'react-i18next';
 
 const AccountInfo = () => {
   const authedUser = useAuth();
-
+  const { t, i18n } = useTranslation();
   return (
     <div className={style.account_info_wrapper}>
       <div className={style.account_info}>
@@ -20,7 +21,7 @@ const AccountInfo = () => {
         <span className={style.account_nick}>{authedUser.displayName}</span>
       </div>
       <button onClick={() => signOut(auth)} className={style.logout_button}>
-        Вийти
+        {t('quit btn')}
       </button>
     </div>
   );

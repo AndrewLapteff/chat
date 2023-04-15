@@ -1,12 +1,13 @@
+import { RouterProvider } from 'react-router-dom';
 import { AuthContextProvider } from './context/AuthContext';
 import { ChatContextProvider } from './context/ChatContext';
-import { ProviderWithDelay } from './routes/routing';
+import { routing } from './routes/routing';
 
 function App() {
   return (
     <AuthContextProvider>
       <ChatContextProvider>
-        <ProviderWithDelay />
+        <RouterProvider router={routing}></RouterProvider>
       </ChatContextProvider>
     </AuthContextProvider>
   );

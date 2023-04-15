@@ -1,5 +1,4 @@
-import React, { Suspense, useContext, useState } from 'react';
-import { AuthContext } from '../context/AuthContext';
+import React, { Suspense, useState } from 'react';
 import {
   Navigate,
   RouterProvider,
@@ -64,17 +63,3 @@ export const routing = createBrowserRouter([
     ],
   },
 ]);
-
-export const ProviderWithDelay = () => {
-  const [isReady, setReady] = useState<boolean>(false);
-  const { authedUser } = useContext<any>(AuthContext);
-  setTimeout(() => {
-    setReady(true);
-  }, 400);
-
-  if (isReady || authedUser != null) {
-    return <RouterProvider router={routing}></RouterProvider>;
-  }
-
-  return null;
-};
